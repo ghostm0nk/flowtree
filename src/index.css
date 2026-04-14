@@ -1,0 +1,111 @@
+:root {
+  --bg-color: #1a1a2e;
+  --text-color: #f0f2f5;
+  --gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  --button-hover: #4e96ff;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.home-container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+.app-name {
+  color: var(--gradient);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  background: var(--gradient);
+  color: var(--bg-color);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background: var(--button-hover);
+}
+
+.login-container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  background: #111827;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.login-container h2 {
+  color: var(--gradient);
+  margin-bottom: 1.5rem;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.input-field label {
+  margin-bottom: 0.5rem;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.input-field input {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background: #1e2130;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.cta-button.secondary-button {
+  background: #333;
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.error-message {
+  color: #ff3e3e;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
