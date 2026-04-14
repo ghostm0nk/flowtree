@@ -1,74 +1,39 @@
-import React from 'react';
-import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import React, { useState } from 'react'
+import { supabase } from '../main'
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
-
-export default function Login() {
-  const [status, setStatus] = useState('');
-  const [error, setError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+function Login({ supabase }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus('');
-    setError('');
-
-    try {
-      if (e.target.loginAuth) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        window.location.href = '/';
-      } else {
-        const { error, user } = await supabase.auth.signUp({ email, password });
-        if (error) throw error;
-        window.location.href = '/';
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    e.preventDefault()
+    if (email && password) {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) alert(error.message)
+      else window.location.href = '/'
     }
-  };
+  }
 
   return (
-    <div className="login-container">
-      <h2>Login or Sign Up</h2>
-      {error && <p className="error-message">{error}</p>}
+    <div className="login-form">
+      <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email} 
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
-        <button type="submit" className="cta-button">
-          {loading ? 'Processing...' : 'Login/Sign Up'}
-        </button>
-        <div>
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={() => window.location.href = '/'}
-          >
-            Already have an account? Login
-          </button>
-        </div>
+        <button type="submit">Login</button>
       </form>
     </div>
-  );
+  )
 }
+
+export default Login
