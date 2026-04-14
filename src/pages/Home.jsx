@@ -1,13 +1,17 @@
-import React from 'react'
+import { Link } from 'react-router-dom';
 
-function Home() {
+export default function Home() {
   return (
-    <div className="home-page">
-      <h1 className="home-title">FlowTree</h1>
-      <p className="home-tagline">Your intelligent task management system for professionals</p>
-      <button className="cta-button">Get Started →</button>
+    <div className="container min-h-screen flex flex-col items-center justify-center px-4 py-12 text-center">
+      <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+        FlowTree
+      </h1>
+      <p className="text-xl mb-8 max-w-2x text-gray-300">
+        Organize your tasks into a work tree with names and calendar dates.
+      </p>
+      <Link to="/login" className="btn btn-primary">
+        Get Started
+      </Link>
     </div>
-  )
+  );
 }
-
-export default Home
