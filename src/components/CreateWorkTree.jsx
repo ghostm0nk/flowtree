@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 
 const CreateWorkTree = ({ onCreate }) => {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title.trim()) {
-      onCreate(title.trim());
+      onCreate(title.trim(), description.trim());
       setTitle('');
+      setDescription('');
       setIsCreating(false);
     }
   };
@@ -39,6 +41,20 @@ const CreateWorkTree = ({ onCreate }) => {
           placeholder="Enter work tree title..."
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           autoFocus
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+          Description (optional)
+        </label>
+        <textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Add a description..."
+          rows="3"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>
       <div className="flex space-x-3">
@@ -53,6 +69,7 @@ const CreateWorkTree = ({ onCreate }) => {
           onClick={() => {
             setIsCreating(false);
             setTitle('');
+            setDescription('');
           }}
           className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
         >
