@@ -19,6 +19,9 @@ const WorkTreeList = ({ workTrees, onDelete }) => {
           className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow"
         >
           <h3 className="text-lg font-semibold text-gray-900 mb-2">{tree.title}</h3>
+          {tree.description && (
+            <p className="text-sm text-gray-600 mb-4">{tree.description}</p>
+          )}
           <p className="text-sm text-gray-500 mb-4">
             Created {format(new Date(tree.created_at), 'MMM d, yyyy')}
           </p>
