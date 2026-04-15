@@ -65,14 +65,14 @@ const Dashboard = ({ session }) => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-yellow-50">
         <div className="text-center text-gray-500">Loading work trees...</div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-yellow-50">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">My Work Trees</h1>
         <p className="text-gray-600">Manage and organize your hierarchical work structures</p>
