@@ -98,7 +98,7 @@ function App() {
                 </div>
                 
                 <div className="lg:pl-8">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-8">
+                  <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 p-8">
                     <AuthForm />
                   </div>
                 </div>
