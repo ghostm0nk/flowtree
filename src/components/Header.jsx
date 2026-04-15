@@ -33,7 +33,10 @@ const Header = ({ session, onProfileClick }) => {
                 {showMenu && (
                   <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
                     <div className="px-4 py-3" role="none">
-                      <p className="text-sm text-gray-700" role="none">
+                      <p className="text-sm text-gray-700 font-medium" role="none">
+                        {session.user.user_metadata?.username || session.user.email}
+                      </p>
+                      <p className="text-xs text-gray-500" role="none">
                         {session.user.email}
                       </p>
                     </div>
@@ -46,7 +49,7 @@ const Header = ({ session, onProfileClick }) => {
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                       >
-                        Profile
+                        Profile Settings
                       </button>
                       <button
                         onClick={handleSignOut}
