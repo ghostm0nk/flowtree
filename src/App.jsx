@@ -1,3 +1,4 @@
+// No changes here as the issue seems configuration-based
 import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import AuthForm from './components/AuthForm';
