@@ -21,7 +21,7 @@ const Dashboard = ({ session }) => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setWorkTrees(data || []);
+      setWorkTrees(data || []); 
     } catch (error) {
       console.error('Error fetching work trees:', error);
     } finally {
@@ -42,7 +42,7 @@ const Dashboard = ({ session }) => {
         .select();
 
       if (error) throw error;
-      setWorkTrees([data[0], ...workTrees]);
+      setWorkTrees([data[0], ...workTrees]); 
     } catch (error) {
       console.error('Error creating work tree:', error);
     }
@@ -56,7 +56,7 @@ const Dashboard = ({ session }) => {
         .eq('id', id);
 
       if (error) throw error;
-      setWorkTrees(workTrees.filter(tree => tree.id !== id));
+      setWorkTrees(workTrees.filter(tree => tree.id !== id)); 
     } catch (error) {
       console.error('Error deleting work tree:', error);
     }
