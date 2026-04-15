@@ -1,51 +1,50 @@
-import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
-import Auth from './components/Auth'
-import Dashboard from './components/Dashboard'
-import Header from './components/Header'
+import React, { useState, useEffect } from 'react';
+import { supabase } from './lib/supabase';
+import AuthForm from './components/AuthForm';
+import Dashboard from './components/Dashboard';
+import Header from './components/Header';
 
 function App() {
-  const [session, setSession] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setLoading(false)
-    })
+      setSession(session);
+      setLoading(false);
+    });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+      setSession(session);
+    });
 
-    return () => subscription.unsubscribe()
-  }, [])
+    return () => subscription.unsubscribe();
+  }, []);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading FlowTree...</p>
-        </div>
+        <div className="text-gray-500">Loading...</div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {session ? (
-        <>
-          <Header session={session} />
+      <Header session={session} />
+      <main>
+        {session ? (
           <Dashboard session={session} />
-        </>
-      ) : (
-        <Auth />
-      )}
+        ) : (
+          <div className="max-w-md mx-auto py-12 px-4">
+            <AuthForm />
+          </div>
+        )}
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
