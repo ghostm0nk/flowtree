@@ -29,13 +29,14 @@ const Dashboard = ({ session }) => {
     }
   };
 
-  const handleCreateWorkTree = async (title) => {
+  const handleCreateWorkTree = async (title, description = '') => {
     try {
       const { data, error } = await supabase
         .from('work_trees')
         .insert([
           {
             title,
+            description,
             user_id: session.user.id,
           },
         ])
