@@ -1,18 +1,2 @@
-// No changes here as it seems correctly configured
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    outDir: './dist'
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
-  esbuild: {
-    loader: 'jsx',
-  },
-})
+import { defineConfig } from 'vite' import react from '@vitejs/plugin-react' export default defineConfig({ server: { host: "0.0.0.0", allowedHosts: true },
+  plugins: [react()], build: { outDir: './dist' }, resolve: { alias: { '@': '/src' }, }, define: { VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY }, esbuild: { loader: 'jsx', }, })
