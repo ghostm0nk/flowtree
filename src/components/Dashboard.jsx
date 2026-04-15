@@ -4,35 +4,86 @@ import WorkTreeList from './WorkTreeList';
 import CreateWorkTree from './CreateWorkTree';
 
 const Dashboard = ({ session }) => {
-  // ... existing code ...
-```
+  const [workTrees, setWorkTrees] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-However, there's another potential issue. The `format` function from `date-fns` is used in `WorkTreeList.jsx` but it's not imported.
+  useEffect(() => {
+    fetchWorkTrees();
+  }, []);
 
-<file path="src/components/WorkTreeList.jsx">
-import React from 'react';
-import { format } from 'date-fns'; // Add this line
+  const fetchWorkTrees = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('work_trees')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false });
 
-const WorkTreeList = ({ workTrees, onDelete }) => {
-  // ... existing code ...
-```
+      if (error) throw error;
+      setWorkTrees(data || []);
+    } catch (error) {
+      console.error('Error fetching work trees:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-Additionally, ensure that `CreateWorkTree.jsx` exists and is correctly exported.
+  const handleCreateWorkTree = async (title) => {
+    try {
+      const { data, error } = await supabase
+        .from('work_trees')
+        .insert([
+          {
+            title,
+            user_id: session.user.id,
+          },
+        ])
+        .select();
 
-Assuming `CreateWorkTree.jsx` exists and is correctly implemented, no changes are needed in other files. 
+      if (error) throw error;
+      setWorkTrees([data[0], ...workTrees]);
+    } catch (error) {
+      console.error('Error creating work tree:', error);
+    }
+  };
 
-However, to ensure that all components are properly imported, let's verify the imports in `App.jsx` and other files. 
+  const handleDeleteWorkTree = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('work_trees')
+        .delete()
+        .eq('id', id);
 
-No changes are required in `App.jsx` as it seems correctly configured.
+      if (error) throw error;
+      setWorkTrees(workTrees.filter(tree => tree.id !== id));
+    } catch (error) {
+      console.error('Error deleting work tree:', error);
+    }
+  };
 
-<file path="src/App.jsx">
-// No changes here as the issue seems configuration-based
-import React, { useState, useEffect } from 'react';
-import { supabase } from './lib/supabase';
-import AuthForm from './components/AuthForm';
-import Dashboard from './components/Dashboard';
-import Header from './components/Header';
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center text-gray-500">Loading work trees...</div>
+      </div>
+    );
+  }
 
-function App() {
-  // ... existing code ...
-}
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Work Trees</h1>
+        <p className="text-gray-600">Organize your work and ideas hierarchically</p>
+      </div>
+
+      <div className="mb-8">
+        <CreateWorkTree onCreate={handleCreateWorkTree} />
+      </div>
+
+      <WorkTreeList workTrees={workTrees} onDelete={handleDeleteWorkTree} />
+    </div>
+  );
+};
+
+export default Dashboard;
