@@ -1,3 +1,4 @@
+// No changes here as it seems correctly configured
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
