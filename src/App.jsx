@@ -3,6 +3,7 @@ import { supabase } from './lib/supabase';
 import AuthForm from './components/AuthForm';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
+// Ensure ProfileModal.jsx exists in src/components/
 import ProfileModal from './components/ProfileModal';
 
 function App() {
