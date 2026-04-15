@@ -1,15 +1,51 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
+import Auth from './components/Auth'
+import Dashboard from './components/Dashboard'
+import Header from './components/Header'
 
 function App() {
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading FlowTree...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="*" element={<div className="container">404 - Not Found</div>} />
-    </Routes>
-  );
+    <div className="min-h-screen bg-gray-50">
+      {session ? (
+        <>
+          <Header session={session} />
+          <Dashboard session={session} />
+        </>
+      ) : (
+        <Auth />
+      )}
+    </div>
+  )
 }
 
-export default App;
+export default App
