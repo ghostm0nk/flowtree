@@ -1,53 +1,53 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
-import WorkTreeList from './WorkTreeList'
-import CreateWorkTree from './CreateWorkTree'
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import WorkTreeList from './WorkTreeList';
+import CreateWorkTree from './CreateWorkTree';
 
-export default function Dashboard({ session }) {
-  const [workTrees, setWorkTrees] = useState([])
-  const [loading, setLoading] = useState(true)
+const Dashboard = ({ session }) => {
+  const [workTrees, setWorkTrees] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchWorkTrees()
-  }, [])
+    fetchWorkTrees();
+  }, []);
 
   const fetchWorkTrees = async () => {
     try {
-      setLoading(true)
       const { data, error } = await supabase
         .from('work_trees')
         .select('*')
         .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: false });
 
-      if (error) throw error
-      setWorkTrees(data || [])
+      if (error) throw error;
+      setWorkTrees(data || []);
     } catch (error) {
-      console.error('Error fetching work trees:', error)
+      console.error('Error fetching work trees:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const handleCreateWorkTree = async (name) => {
+  const handleCreateWorkTree = async (title) => {
     try {
       const { data, error } = await supabase
         .from('work_trees')
         .insert([
           {
-            name,
+            title,
             user_id: session.user.id,
-            data: { nodes: [], connections: [] }
-          }
+            data: { nodes: [], connections: [] },
+          },
         ])
         .select()
+        .single();
 
-      if (error) throw error
-      setWorkTrees([data[0], ...workTrees])
+      if (error) throw error;
+      setWorkTrees([data, ...workTrees]);
     } catch (error) {
-      console.error('Error creating work tree:', error)
+      console.error('Error creating work tree:', error);
     }
-  }
+  };
 
   const handleDeleteWorkTree = async (id) => {
     try {
@@ -55,29 +55,42 @@ export default function Dashboard({ session }) {
         .from('work_trees')
         .delete()
         .eq('id', id)
-        .eq('user_id', session.user.id)
+        .eq('user_id', session.user.id);
 
-      if (error) throw error
-      setWorkTrees(workTrees.filter(tree => tree.id !== id))
+      if (error) throw error;
+      setWorkTrees(workTrees.filter((tree) => tree.id !== id));
     } catch (error) {
-      console.error('Error deleting work tree:', error)
+      console.error('Error deleting work tree:', error);
     }
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="text-center text-gray-500">Loading your work trees...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Work Trees</h2>
-        <p className="text-gray-600">Create and manage collaborative task trees with your team</p>
+        <h1 className="text-3xl font-bold text-gray-900">Your Work Trees</h1>
+        <p className="mt-2 text-gray-600">
+          Organize your tasks and projects in visual tree structures
+        </p>
       </div>
 
-      <CreateWorkTree onCreate={handleCreateWorkTree} />
-      
-      <WorkTreeList 
-        workTrees={workTrees} 
-        loading={loading}
+      <div className="mb-8">
+        <CreateWorkTree onCreate={handleCreateWorkTree} />
+      </div>
+
+      <WorkTreeList
+        workTrees={workTrees}
         onDelete={handleDeleteWorkTree}
       />
     </div>
-  )
-}
+  );
+};
+
+export default Dashboard;
