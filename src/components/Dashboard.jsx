@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import WorkDiagramList from './WorkDiagramList'
 import CreateDiagram from './CreateDiagram'
 import Profile from './Profile'
+import UrlDataFetch from './UrlDataFetch'
 
 export default function Dashboard({ session }) {
   const [activeTab, setActiveTab] = useState('diagrams')
@@ -88,6 +89,16 @@ export default function Dashboard({ session }) {
           >
             Profile
           </button>
+          <button
+            onClick={() => setActiveTab('url-data')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'url-data'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            URL Data
+          </button>
         </nav>
       </div>
 
@@ -111,6 +122,9 @@ export default function Dashboard({ session }) {
       )}
       {activeTab === 'profile' && (
         <Profile session={session} />
+      )}
+      {activeTab === 'url-data' && (
+        <UrlDataFetch session={session} />
       )}
     </div>
   )
