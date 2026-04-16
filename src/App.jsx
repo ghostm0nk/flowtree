@@ -1,6 +1,48 @@
-import ProfileModal from './components/ProfileModal';
-// Rest of your code
+import { useState, useEffect } from 'react'
+import { supabase } from './lib/supabase'
+import AuthForm from './components/AuthForm'
+import Dashboard from './components/Dashboard'
+import Header from './components/Header'
 
-export default function App() {
-  // Your component code here
+function App() {
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {session ? (
+        <>
+          <Header session={session} />
+          <Dashboard session={session} />
+        </>
+      ) : (
+        <AuthForm />
+      )}
+    </div>
+  )
 }
+
+export default App
