@@ -9,7 +9,7 @@ const LandingPage = () => {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up">
+        <section className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up rounded-b-3xl">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
               Organize Your Work, Amplify Your Flow.
