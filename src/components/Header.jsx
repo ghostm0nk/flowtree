@@ -31,8 +31,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="w-full bg-white shadow-sm py-2 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <header className="bg-white shadow-lg py-1 px-4 sm:px-6 lg:px-8 rounded-3xl max-w-7xl mx-auto mt-4 relative z-10">
+      <div className="flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200 rounded-md">
           FlowTree
         </Link>
