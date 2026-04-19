@@ -19,7 +19,7 @@ const LandingPage = () => {
             </p>
             <Link
               to="/signup"
-              className="inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 hover:scale-105 transform transition-all duration-300 text-lg"
+              className="inline-block px-8 py-4 bg-white text-gray-800 font-bold rounded-lg shadow-lg hover:bg-gray-100 hover:scale-105 transform transition-all duration-300 text-lg"
             >
               Get Started for Free
             </Link>
