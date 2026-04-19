@@ -1,30 +1,77 @@
-import { supabase } from '../lib/supabase'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
-export default function Header({ session }) {
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-  }
+const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out:', error.message);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const [session, setSession] = React.useState(null);
+
+  React.useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Flowtree</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-700">
-              {session.user.user_metadata?.full_name || session.user.email}
-            </span>
-            <button
-              onClick={handleSignOut}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              Sign out
-            </button>
-          </div>
-        </div>
+    <header className="w-full bg-white shadow-sm py-4 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200">
+          FlowTree
+        </Link>
+        <nav className="flex items-center space-x-4">
+          {session ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition-all duration-200 transform hover:scale-105"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200 transform hover:scale-105"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
+        </nav>
       </div>
     </header>
-  )
-}
+  );
+};
+
+export default Header;
