@@ -1,3 +1,6 @@
+// The import statement seems correct:
+// import { createClient } from '@supabase/supabase-js';
+// Ensure @supabase/supabase-js is installed in your project.
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
