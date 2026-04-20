@@ -28,10 +28,10 @@ const Signup = () => {
     if (error) {
       setError(error.message);
     } else if (data.user) {
-      // Insert user details into public.users table
+      // Insert user details into public.profiles table
       const { error: profileError } = await supabase
-        .from('users')
-        .insert([{ id: data.user.id, email: data.user.email, name: name }]);
+        .from('profiles')
+        .insert([{ id: data.user.id, email: data.user.email, display_name: name }]);
 
       if (profileError) {
         console.error('Error inserting user profile:', profileError.message);
