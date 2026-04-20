@@ -132,7 +132,7 @@ const Dashboard = () => {
             {tasks.length === 0 ? (
               <p className="text-gray-500 text-center py-8">
                 No tasks yet. Click "New Task" to get started!
-              </>
+              </p>
             ) : (
               <ul className="divide-y divide-gray-200">
                 {tasks.map((task) => (
